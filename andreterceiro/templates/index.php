@@ -34,16 +34,6 @@
             }
         );
 
-        const dollarsMoneyConversor = new Intl.NumberFormat(
-            "en-US",
-            {
-                'style': 'currency',
-                'currency': 'USD'
-            }
-        );
-
-
-
         // Invoking the getCurrencies() function and populating the destination currencies combobox
         // (select tag) 
         let currencies; 
