@@ -38,7 +38,6 @@
             }
         });
 
-        var multiplier;
         // Jquery ready listener
         // Adding the click listener to the button "convert"
         $(document).ready(function() {
@@ -56,9 +55,8 @@
                             })
                             .then(function(response) {
                                 $("#answer").css("visibility","visible");
-                                console.log(response);
                                 const destinationCurrencyAcronym = getDestinationCurrencyAcronym()
-                                multiplier = response[destinationCurrencyAcronym + "BRL"].bid;
+                                const multiplier = response[destinationCurrencyAcronym + "BRL"].bid;
                                 writeDestinationCurrencyAcronym(destinationCurrencyAcronym);
                                 
                                 const valueToConvert = getValueToConvert();
@@ -104,41 +102,90 @@
 
         /**
          * Get the acronym related to the currency selected
-         * 
-         * @returns string
+         *
+         * @returns {string}
          */
         function getDestinationCurrencyAcronym() {
             return $("#destinationCurrency").find(":selected").val();
         }
 
+        /**
+         * Writes the destination acronym as the content of the specific HTML tags
+         *
+         * @returns {null}
+         */
         function writeDestinationCurrencyAcronym(destinationCurrencyAcronym) {
             $(".labelDestinationCurrencyAcronym").text(destinationCurrencyAcronym);
         }
 
+        /**
+         * Returns the vaue to convert from the text field
+         *
+         * @returns {string}
+         */
         function getValueToConvert() {
             return $("#valueToConvert").val();
         }
 
+        /**
+         * Writes the destination acronym as the content of the specific HTML tags
+         *
+         * @param {string} value Value to be written in the HTML page
+         *
+         * @returns {null}
+         */
         function writeValueToConvert(value) {
             $(".labelValueToConvert").text(value);
         }
 
+        /**
+         * Returns the payment method selected in the <select /> input filed
+         * Returns the label showed in the HTML page, not the option value
+         *
+         * @returns {string}
+         */
         function getPaymentMethodLabel() {
             return $("#paymentMethod").find(":selected")[0].label;
         }
 
+        /**
+         * Returns the payment method selected in the <select /> input filed
+         * Returns the option value, not the label showed in the HTML page
+         *
+         * @returns {string}
+         */
         function getPaymentMethodValue() {
             return $("#paymentMethod").find(":selected")[0].value;
         }
 
+        /**
+         * Writes the payment method as the content of the specific HTML tags
+         *
+         * @returns {null}
+         */
         function writePaymentMethod() {
             $(".labelPaymentMethod").text(getPaymentMethodLabel());
         }
 
+        /**
+         * Writes the conversion rate as the content of the specific HTML tag
+         *
+         * @param {string} conversionRate Value to be written in the HTML page
+         *
+         * @returns {null}
+         */
         function writeConversionRate(conversionRate) {
             $("#conversionRate").text(conversionRate);
         }
 
+        /**
+         * Calculates the payment tax
+         *
+         * @param {string} referenceValue Value to be analyzed and who defines
+         *                                what will be returned
+         *
+         * @returns {string}
+         */
         function calculatePaymentTax(referenceValue) {
             const paymentMethod = getPaymentMethodValue();
             if (paymentMethod == "bankSlip") {
@@ -149,10 +196,25 @@
             throw new Error("Este meio de pagamento não existe");
         }
 
+        /**
+         * Writes the payment tax as the content of the specific HTML tag
+         *
+         * @param {string} paymentTax Value to be written in the HTML page
+         *
+         * @returns {null}
+         */
         function writePaymentTax(paymentTax) {
             $("#paymentTax").text(paymentTax)
         }
 
+        /**
+         * Calculates the conversion tax
+         *
+         * @param {number} referenceValue Base value to be compared to the threshold
+         *                                who defines the value to be returned
+         *
+         * @returns {string}
+         */
         function calculateConversionTax(referenceValue) {
             if (referenceValue < 3000) {
                 return referenceValue * .02;
@@ -161,18 +223,40 @@
             return referenceValue * .01;
         }
 
+        /**
+         * Writes the conversion tax as the content of the specific HTML tag
+         *
+         * @param {string} conversionTax Value to be written in the HTML page
+         *
+         * @returns {null}
+         */
         function writeConversionTax(conversionTax) {
             $("#conversionTax").text(conversionTax);
         }
 
+        /**
+         * Returns the value to convert minus the discounts
+         *
+         * @returns {number}
+         */
         function getValueToConvertMinusDiscounts(valueToConvert, paymentTax, conversionTax) {
             return valueToConvert - paymentTax - conversionTax;
         }
 
+        /**
+         * Writes the value to convert minus the discounts in the HTML page
+         *
+         * @returns {null}
+         */
         function writeValueToConvertMinusDiscounts(value) {
             $("#valueToConvertMinusDiscounts").text(value);
         }
 
+        /**
+         * Writes the value converted in the HTML page
+         *
+         * @returns {null}
+         */
         function writeValueConverted(value) {
             $("#valueConverted").text(value);
         }
@@ -237,7 +321,5 @@
                 <div class="col-12"><b>Valor utilizado para conversão descontando as taxas:</b> <span id="valueToConvertMinusDiscounts"></span></div>
             </div>
         </div>
-
-                    
 </body>
 </html>
