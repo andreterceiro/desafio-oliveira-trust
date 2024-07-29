@@ -34,6 +34,16 @@
             }
         );
 
+        const dollarsMoneyConversor = new Intl.NumberFormat(
+            "en-US",
+            {
+                'style': 'currency',
+                'currency': 'USD'
+            }
+        );
+
+
+
         // Invoking the getCurrencies() function and populating the destination currencies combobox
         // (select tag) 
         let currencies; 
@@ -186,7 +196,7 @@
          * @returns {null}
          */
         function writeConversionRate(conversionRate) {
-            $("#conversionRate").text(conversionRate);
+            $("#conversionRate").text(conversionRate.replace(".", ","));
         }
 
         /**
@@ -269,7 +279,8 @@
          * @returns {null}
          */
         function writeValueConverted(value) {
-            $("#valueConverted").text(realsMoneyConversor.format(value));
+            const monetaryValue = realsMoneyConversor.format(value);
+            $("#valueConverted").text(monetaryValue.substring(2, monetaryValue.length));
         }
     </script>
 
