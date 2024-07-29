@@ -25,6 +25,15 @@
             });
         }
 
+        // Variable to convert the monetary values
+        const realsMoneyConversor = new Intl.NumberFormat(
+            "pt-BR",
+            {
+                'style': 'currency',
+                'currency': 'BRL'
+            }
+        );
+
         // Invoking the getCurrencies() function and populating the destination currencies combobox
         // (select tag) 
         let currencies; 
@@ -135,7 +144,7 @@
          * @returns {null}
          */
         function writeValueToConvert(value) {
-            $(".labelValueToConvert").text(value);
+            $(".labelValueToConvert").text(realsMoneyConversor.format(value));
         }
 
         /**
@@ -204,7 +213,7 @@
          * @returns {null}
          */
         function writePaymentTax(paymentTax) {
-            $("#paymentTax").text(paymentTax)
+            $("#paymentTax").text(realsMoneyConversor.format(paymentTax));
         }
 
         /**
@@ -231,7 +240,7 @@
          * @returns {null}
          */
         function writeConversionTax(conversionTax) {
-            $("#conversionTax").text(conversionTax);
+            $("#conversionTax").text(realsMoneyConversor.format(conversionTax));
         }
 
         /**
@@ -249,7 +258,7 @@
          * @returns {null}
          */
         function writeValueToConvertMinusDiscounts(value) {
-            $("#valueToConvertMinusDiscounts").text(value);
+            $("#valueToConvertMinusDiscounts").text(realsMoneyConversor.format(value));
         }
 
         /**
@@ -258,7 +267,7 @@
          * @returns {null}
          */
         function writeValueConverted(value) {
-            $("#valueConverted").text(value);
+            $("#valueConverted").text(realsMoneyConversor.format(value));
         }
     </script>
 
@@ -275,6 +284,16 @@
         }
         .line-report {
             /*display: block*/
+        }
+
+        #row-observations {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #888;
+        }
+
+        #observations {
+            color: red;
         }
     </style>
 </head>
@@ -301,25 +320,34 @@
         </div>
 
         <div class="row" id="answer">
-            <div class="col-6">
-                <div class="col-12 title-report"><h3>Parâmetros de entrada</h3></div>
-                <div class="col-12 line-report"><b>Moeda de origem:</b> BRL (default)</div>
-                <div class="col-12 line-report"><b>Moeda de destino:</b> <span class="labelDestinationCurrencyAcronym"></span></div>
-                <div class="col-12 line-report"><b>Valor para conversão:</b> <span class="labelValueToConvert"></span></div>
-                <div class="col-12 line-report"><b>Forma de pagamento:</b> <span class="labelPaymentMethod"></span></div>
+            <div class="row">
+                <div class="col-6">
+                    <div class="col-12 title-report"><h3>Parâmetros de entrada</h3></div>
+                    <div class="col-12 line-report"><b>Moeda de origem:</b> BRL (default)</div>
+                    <div class="col-12 line-report"><b>Moeda de destino:</b> <span class="labelDestinationCurrencyAcronym"></span></div>
+                    <div class="col-12 line-report"><b>Valor para conversão:</b> <span class="labelValueToConvert"></span></div>
+                    <div class="col-12 line-report"><b>Forma de pagamento:</b> <span class="labelPaymentMethod"></span></div>
+                </div>
+                <div class="col-6">
+                    <div class="col-12"><h3>Parâmetros de saída</h3></div>
+                    <div class="col-12"><b>Moeda de origem:</b> BRL (default)</div>
+                    <div class="col-12"><b>Moeda de destino:</b> <span class="labelDestinationCurrencyAcronym"></span></div>
+                    <div class="col-12"><b>Valor para conversão:</b> <span class="labelValueToConvert"></span></div>
+                    <div class="col-12"><b>Forma de pagamento:</b> <span class="labelPaymentMethod"></span></div>
+                    <div class="col-12"><b>Valor da "Moeda de destino" usado para conversão (taxa):</b> <span id="conversionRate"></span></div>
+                    <div class="col-12"><b>Valor comprado em "Moeda de destino": </b> <span id="valueConverted"></span></div>
+                    <div class="col-12"><b>Taxa de pagamento:</b> <span id="paymentTax"></span></div>
+                    <div class="col-12"><b>Taxa de conversão:</b> <span id="conversionTax"></span></div>
+                    <div class="col-12"><b>Valor utilizado para conversão descontando as taxas:</b> <span id="valueToConvertMinusDiscounts"></span></div>
+                </div>
             </div>
-            <div class="col-6">
-                <div class="col-12"><h3>Parâmetros de saída</h3></div>
-                <div class="col-12"><b>Moeda de origem:</b> BRL (default)</div>
-                <div class="col-12"><b>Moeda de destino:</b> <span class="labelDestinationCurrencyAcronym"></span></div>
-                <div class="col-12"><b>Valor para conversão:</b> <span class="labelValueToConvert"></span></div>
-                <div class="col-12"><b>Forma de pagamento:</b> <span class="labelPaymentMethod"></span></div>
-                <div class="col-12"><b>Valor da "Moeda de destino" usado para conversão (taxa):</b> <span id="conversionRate"></span></div>
-                <div class="col-12"><b>Valor comprado em "Moeda de destino": </b> <span id="valueConverted"></span></div>
-                <div class="col-12"><b>Taxa de pagamento:</b> <span id="paymentTax"></span></div>
-                <div class="col-12"><b>Taxa de conversão:</b> <span id="conversionTax"></span></div>
-                <div class="col-12"><b>Valor utilizado para conversão descontando as taxas:</b> <span id="valueToConvertMinusDiscounts"></span></div>
+            <div class="row" id="row-observations">
+                <div class="col-12" id="observations">
+                    <b>OBS: </b>para se chegar ao valor comprado na moeda destino, <b>divida</b> o valor
+                    para conversão já descontadas as taxas.
+                </div>
             </div>
         </div>
+    </div>
 </body>
 </html>
