@@ -54,12 +54,14 @@
                 const valueToConvert = parseFloat($("#valueToConvert").val());
 
                 if (isNaN(valueToConvert) || valueToConvert < 1000 || valueToConvert > 100000) {
+                    $("#answer").css("visibility","hidden");
                     alert("Por favor entre com um valor entre 1000 e 100000 para conversão");
                 } else {
                     const destinationCurrencyAcronym = getDestinationCurrencyAcronym();
                     try {
                         $.get('<?php echo CONFIG::getStartingConversionApiHttpAddress();?>' + destinationCurrencyAcronym + "-BRL")
                             .fail(function() {
+                                $("#answer").css("visibility","hidden");
                                 alert("Não é possível converter para esta moeda");
                             })
                             .then(function(response) {
@@ -280,7 +282,7 @@
             margin-top: 10px;
             padding-top: 10px;
             border-top: 1px solid #888;
-            /*visibility: hidden;*/
+            visibility: hidden;
         }
         .line-report {
             /*display: block*/
